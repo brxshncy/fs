@@ -6,6 +6,7 @@ import { authRoute } from "./routes/authrRoute.js";
 import cors from "cors";
 import { errorHandler } from "./middleware/errorMiddleware.js";
 import { tweetRoute } from "./routes/tweetRoute.js";
+import { followUserRoute } from "./routes/followUserRoute.js";
 
 dotenv.config();
 
@@ -23,5 +24,6 @@ app.use(
 // API ROUTES
 app.use("/api", authRoute);
 app.use("/api/tweets", tweetRoute);
+app.use("/api/follow-user", followUserRoute);
 app.use(errorHandler);
 app.listen(PORT, () => console.log(`Server is running at port: ${PORT}`));

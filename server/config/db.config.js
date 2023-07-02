@@ -9,6 +9,6 @@ export const connectDb = async () => {
             `Database is running at ${conn.connection.host}`.underline.cyan
         );
     } catch (error) {
-        console.error(error);
+        console.error(`Database error: ${error}`.underline.red);
     }
 };
