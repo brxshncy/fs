@@ -1,8 +1,28 @@
 import asyncHandler from "express-async-handler";
 import { Tweet } from "../model/TweetModel.js";
+import { FollowUser } from "../model/FollowUserModel.js";
 
 export const getTweets = asyncHandler(async (req, res) => {
-    const tweets = await Tweet.find();
+    const followingUsers = await FollowUser.find({
+        userId: req.user.id,
+    }).select("followingUserId");
+
+    const followingUserIds = followingUsers.map(
+        (followedUser) => followedUser.followingUserId
+    );
+
+    const tweets = await Tweet.find({
+        $or: [
+            {
+                user: {
+                    $in: followingUserIds,
+                },
+            },
+            {
+                user: req.user.id,
+            },
+        ],
+    });
 
     res.status(200).json(tweets);
 });
